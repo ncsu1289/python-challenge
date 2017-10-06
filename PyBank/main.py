@@ -6,9 +6,9 @@ The greatest decrease in revenue (date and amount) over the entire period'''
 #first step is to initialize and open csv data file
 import os
 import csv
-mypath=os.path.join('Resources','budget_data_1.csv')
+mypath=os.path.join('../Resources','budget_data_1.csv')
 
-mypath2=os.path.join('Resources','budget_data_2.csv')
+mypath2=os.path.join('../Resources','budget_data_2.csv')
 #need a variable counter to keep track of revenue overall
 total_revenue = 0
 #need a counter to keep track of the number of months
@@ -33,7 +33,38 @@ greatD=0
 count1 = 1
 #print(count1)
 
+# Combining two resource files together
+
+budgetnew=[]
+
 with open(mypath,newline='') as csvfile:
+	myreader=csv.reader(csvfile,delimiter=',')
+#skipping the first row of headers in csv file
+	next(myreader,None)
+	for row in myreader:
+		budgetnew.append(row)
+
+#print(budgetnew)
+
+with open(mypath2,newline='')as csvfile:
+	mynewreader=csv.reader(csvfile,delimiter=',')
+	next(mynewreader,None)
+	for addrow in mynewreader:
+		budgetnew.append(addrow)
+
+#print(budgetnew)
+
+output_path=os.path.join('../Resources/output','budgetnew.csv')
+
+with open(output_path,'w',newline='')as csvfile:
+	csvwriter=csv.writer(csvfile,delimiter=",")
+	csvwriter.writerow(['Date','Revenue'])
+	for z in budgetnew:
+		csvwriter.writerow(z)
+
+mypath3=os.path.join('../Resources','budget_data_1.csv')
+#first testing code on one file
+with open(mypath3,newline='') as csvfile:
 	myreader=csv.reader(csvfile,delimiter=',')
 #skipping the first row of headers in csv file
 	next(myreader,None)
